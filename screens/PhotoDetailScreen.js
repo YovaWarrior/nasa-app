@@ -109,8 +109,9 @@ const styles = StyleSheet.create({
   },
   fullImage: {
     width: width,
-    height: 300,
+    height: 450,
     backgroundColor: '#333',
+    resizeMode: 'cover',
   },
   detailsContainer: {
     padding: 20,

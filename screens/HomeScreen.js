@@ -7,7 +7,8 @@ import {
   Pressable, 
   StyleSheet, 
   ActivityIndicator,
-  Alert 
+  Alert,
+  SafeAreaView
 } from 'react-native';
 
 const API_BASE = 'https://api.nasa.gov/mars-photos/api/v1/rovers';
@@ -83,13 +84,17 @@ export default function HomeScreen({ navigation }) {
   }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>🚀 NASA Mars Explorer</Text>
         <Text style={styles.subtitle}>Curiosity Rover - Sol 1000</Text>
       </View>
       
-      <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
+      <ScrollView 
+        style={styles.scrollView} 
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+      >
         {photos.map((photo) => (
           <Pressable 
             key={photo.id} 
@@ -106,7 +111,7 @@ export default function HomeScreen({ navigation }) {
           </Pressable>
         ))}
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -150,6 +155,10 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     flex: 1,
+  },
+  scrollContent: {
+    paddingTop: 10,
+    paddingBottom: 30,
   },
   photoCard: {
     backgroundColor: '#1a1a2e',
