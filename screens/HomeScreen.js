@@ -20,7 +20,7 @@ const getMarsPhotos = async () => {
     const response = await fetch(url);
     
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      throw new Error(`Error HTTP! estado: ${response.status}`);
     }
     
     const data = await response.json();
@@ -35,22 +35,22 @@ const getMarsPhotos = async () => {
         id: 102693,
         img_src: "http://mars.jpl.nasa.gov/msl-raw-images/proj/msl/redops/ods/surface/sol/01000/opgs/edr/fcam/FLB_486265257EDR_F0481570FHAZ00323M_.JPG",
         earth_date: "2015-05-30",
-        camera: { name: "FHAZ", full_name: "Front Hazard Avoidance Camera" },
-        rover: { name: "Curiosity", status: "active" }
+        camera: { name: "FHAZ", full_name: "Cámara Frontal de Evitación de Peligros" },
+        rover: { name: "Curiosity", status: "activo" }
       },
       {
         id: 102694,
         img_src: "http://mars.jpl.nasa.gov/msl-raw-images/proj/msl/redops/ods/surface/sol/01000/opgs/edr/fcam/FRB_486265257EDR_F0481570FHAZ00323M_.JPG",
         earth_date: "2015-05-30",
-        camera: { name: "FHAZ", full_name: "Front Hazard Avoidance Camera" },
-        rover: { name: "Curiosity", status: "active" }
+        camera: { name: "FHAZ", full_name: "Cámara Frontal de Evitación de Peligros" },
+        rover: { name: "Curiosity", status: "activo" }
       },
       {
         id: 102695,
         img_src: "http://mars.jpl.nasa.gov/msl-raw-images/proj/msl/redops/ods/surface/sol/01000/opgs/edr/rcam/RLB_486265291EDR_F0481570RHAZ00323M_.JPG",
         earth_date: "2015-05-30",
-        camera: { name: "RHAZ", full_name: "Rear Hazard Avoidance Camera" },
-        rover: { name: "Curiosity", status: "active" }
+        camera: { name: "RHAZ", full_name: "Cámara Trasera de Evitación de Peligros" },
+        rover: { name: "Curiosity", status: "activo" }
       }
     ];
   }
@@ -77,8 +77,9 @@ export default function HomeScreen({ navigation }) {
   if (loading) {
     return (
       <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#ff6b35" />
-        <Text style={styles.loadingText}>Loading NASA Mars Photos...</Text>
+        <ActivityIndicator size="large" color="#00D4FF" />
+        <Text style={styles.loadingText}>Cargando Fotos de Marte...</Text>
+        <Text style={styles.loadingSubtext}>Conectando con NASA</Text>
       </View>
     );
   }
@@ -86,14 +87,19 @@ export default function HomeScreen({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.title}>🚀 NASA Mars Explorer</Text>
-        <Text style={styles.subtitle}>Curiosity Rover - Sol 1000</Text>
+        <Text style={styles.title}>🌌 Explorador de Marte NASA</Text>
+        <Text style={styles.subtitle}>Rover Curiosity - Sol 1000</Text>
       </View>
       
       <ScrollView 
         style={styles.scrollView} 
         contentContainerStyle={styles.scrollContent}
-        showsVerticalScrollIndicator={false}
+        showsVerticalScrollIndicator={true}
+        indicatorStyle="white"
+        bounces={true}
+        alwaysBounceVertical={false}
+        scrollEventThrottle={16}
+        nestedScrollEnabled={true}
       >
         {photos.map((photo) => (
           <Pressable 
@@ -104,9 +110,9 @@ export default function HomeScreen({ navigation }) {
             <Image source={{ uri: photo.img_src }} style={styles.photoImage} />
             <View style={styles.photoInfo}>
               <Text style={styles.cameraName}>{photo.camera.full_name}</Text>
-              <Text style={styles.photoDate}>Earth Date: {photo.earth_date}</Text>
+              <Text style={styles.photoDate}>Fecha terrestre: {photo.earth_date}</Text>
               <Text style={styles.roverInfo}>Rover: {photo.rover.name}</Text>
-              <Text style={styles.photoId}>Photo ID: {photo.id}</Text>
+              <Text style={styles.photoId}>ID de foto: {photo.id}</Text>
             </View>
           </Pressable>
         ))}
@@ -118,89 +124,112 @@ export default function HomeScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0a0a0a',
+    backgroundColor: '#0F1419',
   },
   header: {
-    backgroundColor: '#1a1a2e',
+    backgroundColor: '#1E2A3A',
     paddingTop: 50,
     paddingBottom: 20,
     paddingHorizontal: 20,
     borderBottomWidth: 3,
-    borderBottomColor: '#ff6b35',
+    borderBottomColor: '#00D4FF',
+    shadowColor: '#00D4FF',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 5,
   },
   title: {
-    fontSize: 26,
+    fontSize: 28,
     fontWeight: 'bold',
-    color: '#ff6b35',
+    color: '#00D4FF',
     textAlign: 'center',
     marginBottom: 8,
+    textShadowColor: '#00D4FF',
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 3,
   },
   subtitle: {
     fontSize: 16,
-    color: '#ffffff',
+    color: '#E8F4F8',
     textAlign: 'center',
     opacity: 0.9,
+    fontWeight: '500',
   },
   loadingContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#0a0a0a',
+    backgroundColor: '#0F1419',
   },
   loadingText: {
-    color: '#ffffff',
-    fontSize: 18,
+    color: '#E8F4F8',
+    fontSize: 20,
     marginTop: 16,
     fontWeight: '600',
+  },
+  loadingSubtext: {
+    color: '#00D4FF',
+    fontSize: 14,
+    marginTop: 8,
+    opacity: 0.8,
   },
   scrollView: {
     flex: 1,
   },
   scrollContent: {
-    paddingTop: 10,
+    paddingTop: 15,
     paddingBottom: 30,
+    flexGrow: 1,
   },
   photoCard: {
-    backgroundColor: '#1a1a2e',
-    borderRadius: 15,
+    backgroundColor: '#1E2A3A',
+    borderRadius: 18,
     marginHorizontal: 16,
     marginBottom: 20,
     overflow: 'hidden',
     borderWidth: 2,
-    borderColor: '#ff6b35',
-    shadowColor: '#ff6b35',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
-    elevation: 8,
+    borderColor: '#00D4FF',
+    shadowColor: '#00D4FF',
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.4,
+    shadowRadius: 12,
+    elevation: 10,
   },
   photoImage: {
     width: '100%',
-    height: 220,
-    backgroundColor: '#333',
+    height: 230,
+    backgroundColor: '#2A3441',
   },
   photoInfo: {
-    padding: 16,
+    padding: 18,
+    backgroundColor: '#1E2A3A',
   },
   cameraName: {
-    color: '#ff6b35',
+    color: '#00D4FF',
     fontSize: 18,
     fontWeight: 'bold',
-    marginBottom: 6,
+    marginBottom: 8,
+    textShadowColor: '#00D4FF',
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 2,
   },
   photoDate: {
-    color: '#ffffff',
-    fontSize: 14,
-    marginBottom: 4,
+    color: '#E8F4F8',
+    fontSize: 15,
+    marginBottom: 5,
+    fontWeight: '500',
   },
   roverInfo: {
-    color: '#cccccc',
-    fontSize: 14,
-    marginBottom: 4,
+    color: '#B8C5D1',
+    fontSize: 15,
+    marginBottom: 5,
+    fontWeight: '500',
   },
   photoId: {
-    color: '#888',
+    color: '#7A8B99',
     fontSize: 12,
     fontStyle: 'italic',
+    opacity: 0.8,
   },
 });
